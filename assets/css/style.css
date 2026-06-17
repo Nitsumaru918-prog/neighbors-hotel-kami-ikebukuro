@@ -11,11 +11,11 @@
 }
 
 :root {
-  --bg:  #f5efe6;
+  --bg:   #f5efe6;
   --text: #865b39;
-  --sw:  clamp(110px, 11vw, 160px);
-  --en:  'Libre Baskerville', Georgia, serif;
-  --ja:  'Noto Serif JP', 'Yu Mincho', serif;
+  --sw:   clamp(110px, 11vw, 160px);
+  --en:   'Libre Baskerville', Georgia, serif;
+  --ja:   'Noto Serif JP', 'Yu Mincho', serif;
 }
 
 html { scroll-behavior: smooth; }
@@ -94,7 +94,42 @@ body {
   opacity: .6;
 }
 
-/* ── FV ────────────────────────────────────────────────── */
+/* ── 言語切り替え ────────────────────────────────────────── */
+.side-lang {
+  margin-top: clamp(28px, 3.5vh, 48px);
+  padding-top: clamp(18px, 2.2vh, 28px);
+  border-top: 1px solid rgba(134,91,57,.15);
+}
+.side-lang__label {
+  font-family: var(--en);
+  font-size: clamp(9px, .75vw, 11px);
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  opacity: .35;
+  margin-bottom: 10px;
+}
+.side-lang__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.side-lang__list a {
+  font-family: var(--en);
+  font-size: clamp(9px, .75vw, 11px);
+  letter-spacing: .2em;
+  color: var(--text);
+  text-decoration: none;
+  opacity: .35;
+  transition: opacity .3s;
+}
+.side-lang__list a:hover { opacity: .8; }
+.side-lang__list a.active {
+  opacity: 1;
+  font-weight: 700;
+}
+
+/* ── FV ──────────────────────────────────────────────────── */
 .fv {
   display: flex;
   height: 100svh;
@@ -231,10 +266,7 @@ body {
   position: relative;
   height: 700px;
 }
-.aimg {
-  position: absolute;
-  overflow: hidden;
-}
+.aimg { position: absolute; overflow: hidden; }
 .aimg img {
   width: 100%; height: 100%;
   object-fit: cover;
@@ -437,10 +469,9 @@ body {
 #area {
   padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));
 }
-#area .eyebrow  { margin-bottom: clamp(12px, 1.6vh, 20px); }
+#area .eyebrow     { margin-bottom: clamp(12px, 1.6vh, 20px); }
 #area .sec-heading { margin-bottom: clamp(32px, 4vh, 56px); }
 
-/* AREAマップ：背景＋スポットの重ねレイアウト */
 .area__map {
   position: relative;
   width: 100%;
@@ -450,10 +481,11 @@ body {
   height: auto;
   display: block;
 }
-/* 各スポット：%指定でposition:absolute → レスポンシブ対応 */
+
+/* スポット：position:absolute、%指定でレスポンシブ対応 */
 .area__spot {
   position: absolute;
-  transform: translate(-50%, -50%);
+  text-align: center;
   /* フェードイン初期状態 */
   opacity: 0;
   transform: translate(-50%, -50%) translateY(16px);
@@ -469,14 +501,44 @@ body {
   display: block;
 }
 
-/* 各スポットの位置（背景画像1448x1086に対する%） */
-.area__spot--sakura { left: 26%;  top: 20%; width: 22%; transition-delay: 0s; }
-.area__spot--jizo   { left: 76%;  top: 28%; width: 22%; transition-delay: .2s; }
-.area__spot--hotel  { left: 50%;  top: 50%; width: 24%; transition-delay: .4s; }
-.area__spot--sugamo { left: 17%;  top: 68%; width: 22%; transition-delay: .6s; }
-.area__spot--bunkaz { left: 76%;  top: 72%; width: 27%; transition-delay: .8s; }
+/* スポット名・説明文 */
+.spot__name {
+  font-family: var(--en);
+  font-size: clamp(11px, 1vw, 15px);
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--text);
+  margin-top: 8px;
+  line-height: 1.4;
+  text-shadow:
+    -2px -2px 0 var(--bg),
+     2px -2px 0 var(--bg),
+    -2px  2px 0 var(--bg),
+     2px  2px 0 var(--bg);
+}
+.spot__desc {
+  font-family: var(--en);
+  font-size: clamp(9px, .75vw, 12px);
+  letter-spacing: .03em;
+  color: var(--text);
+  opacity: .75;
+  margin-top: 4px;
+  line-height: 1.5;
+  text-shadow:
+    -2px -2px 0 var(--bg),
+     2px -2px 0 var(--bg),
+    -2px  2px 0 var(--bg),
+     2px  2px 0 var(--bg);
+}
 
-/* ── PLACEHOLDER（AMENITIES・ACCESS暫定） ─────────────────── */
+/* 各スポットの位置・サイズ（背景1448x1086に対する%） */
+.area__spot--sakura { left: 26%;  top: 20%; width: 16%; transition-delay: 0s; }
+.area__spot--jizo   { left: 76%;  top: 28%; width: 16%; transition-delay: .2s; }
+.area__spot--hotel  { left: 50%;  top: 50%; width: 24%; transition-delay: .4s; }
+.area__spot--sugamo { left: 17%;  top: 68%; width: 16%; transition-delay: .6s; }
+.area__spot--bunkaz { left: 76%;  top: 72%; width: 16%; transition-delay: .8s; }
+
+/* ── PLACEHOLDER ─────────────────────────────────────────── */
 .placeholder {
   min-height: 50vh;
   padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));

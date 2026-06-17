@@ -34,7 +34,7 @@
   timer = setInterval(function () { goTo(cur + 1); }, 4500);
 }());
 
-/* ── 2. サイドバー表示（ABOUTが見えたら出す） ────────────── */
+/* ── 2. サイドバー表示 ──────────────────────────────────── */
 (function () {
   var side = document.getElementById('sideHeader');
   new IntersectionObserver(function (entries) {
@@ -44,7 +44,7 @@
   }, { threshold: [0, 0.1, 0.2, 0.3] }).observe(document.getElementById('about'));
 }());
 
-/* ── 3. サイドナビのアクティブ切り替え ──────────────────── */
+/* ── 3. サイドナビ アクティブ切り替え ──────────────────── */
 (function () {
   var links = document.querySelectorAll('.side-nav a');
   ['about', 'rooms', 'area', 'amenities', 'access'].forEach(function (id) {
@@ -60,7 +60,7 @@
   });
 }());
 
-/* ── 4. 汎用フェードアップ（.fade-up） ──────────────────── */
+/* ── 4. 汎用フェードアップ ──────────────────────────────── */
 (function () {
   var obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (x) {
@@ -81,24 +81,35 @@
   var spots = document.querySelectorAll('.area__spot');
   if (!spots.length) return;
 
-  var obs = new IntersectionObserver(function (entries) {
+  var spotObs = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
+        spotObs.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-  // AREAセクション全体が画面に入ったら順番にフェードイン
   var areaSection = document.getElementById('area');
   if (!areaSection) return;
 
   new IntersectionObserver(function (entries) {
     if (entries[0].isIntersecting) {
-      spots.forEach(function (spot) {
-        obs.observe(spot);
-      });
+      spots.forEach(function (spot) { spotObs.observe(spot); });
     }
   }, { threshold: 0.2 }).observe(areaSection);
+}());
+
+/* ── 6. 言語切り替えリンク アクティブ表示 ──────────────── */
+(function () {
+  // 現在のパスから言語を判定してアクティブクラスを付与
+  var path = window.location.pathname;
+  var langLinks = document.querySelectorAll('.side-lang__list a');
+  langLinks.forEach(function (link) {
+    var href = link.getAttribute('href');
+    // パスがhrefを含む場合アクティブ
+    if (path.indexOf(href.replace(/^\//, '').replace(/\/$/, '')) !== -1) {
+      link.classList.add('active');
+    }
+  });
 }());
