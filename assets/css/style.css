@@ -1,0 +1,507 @@
+/* ============================================================
+   NEIGHBORS HOTEL KAMI-IKEBUKURO
+   style.css
+   ============================================================ */
+
+/* ── リセット・変数 ──────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:  #f5efe6;
+  --text: #865b39;
+  --sw:  clamp(110px, 11vw, 160px);
+  --en:  'Libre Baskerville', Georgia, serif;
+  --ja:  'Noto Serif JP', 'Yu Mincho', serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── サイドバー ──────────────────────────────────────────── */
+.side {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: var(--sw);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: clamp(16px, 2.5vw, 32px);
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity .7s, transform .7s;
+  pointer-events: none;
+}
+.side.visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+.side::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 15%; bottom: 15%;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent,
+    rgba(134,91,57,.2) 30%,
+    rgba(134,91,57,.2) 70%,
+    transparent);
+}
+.side-logo {
+  position: absolute;
+  top: clamp(24px, 3vh, 40px);
+  left: clamp(16px, 2.5vw, 28px);
+}
+.side-logo img {
+  height: clamp(22px, 2.2vw, 30px);
+  filter: invert(38%) sepia(30%) saturate(600%) hue-rotate(10deg) brightness(75%);
+  opacity: .7;
+}
+.side-nav {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.2vh, 28px);
+}
+.side-nav a {
+  font-family: var(--en);
+  font-size: clamp(10px, .85vw, 13px);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  opacity: .45;
+  transition: opacity .3s;
+  position: relative;
+}
+.side-nav a:hover,
+.side-nav a.active { opacity: 1; }
+.side-nav a.active::before {
+  content: '—';
+  position: absolute;
+  left: -1.2em;
+  font-size: .8em;
+  opacity: .6;
+}
+
+/* ── FV ────────────────────────────────────────────────── */
+.fv {
+  display: flex;
+  height: 100svh;
+  min-height: 600px;
+  padding-left: var(--sw);
+  overflow: hidden;
+  background: var(--bg);
+}
+.fv__left {
+  flex: 0 0 42%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(40px,5vh,80px) clamp(32px,3.5vw,56px) clamp(40px,5vh,80px) clamp(24px,3vw,48px);
+  position: relative;
+  z-index: 2;
+}
+.fv__left::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 8%; bottom: 8%;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent,
+    rgba(134,91,57,.2) 25%,
+    rgba(134,91,57,.2) 75%,
+    transparent);
+}
+.fv__logo { margin-bottom: clamp(28px, 3.5vh, 48px); }
+.fv__logo img {
+  width: clamp(200px, 30vw, 432px);
+  height: auto;
+  max-height: clamp(40px, 5.2vw, 75px);
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+  filter: invert(38%) sepia(30%) saturate(600%) hue-rotate(10deg) brightness(75%);
+}
+.fv__location {
+  font-family: var(--en);
+  font-size: clamp(9px, .75vw, 12px);
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  opacity: .65;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.fv__location::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: currentColor;
+  opacity: .5;
+  flex-shrink: 0;
+}
+.fv__right {
+  flex: 1;
+  position: relative;
+  padding: clamp(60px,10vh,120px) clamp(40px,7vw,100px) clamp(60px,10vh,120px) clamp(24px,2.5vw,40px);
+}
+.slideshow {
+  position: relative;
+  width: 100%; height: 100%;
+  overflow: hidden;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.slide.active { opacity: 1; }
+.slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%) brightness(.82);
+  transition: filter .8s;
+}
+.fv__right:hover .slide.active img {
+  filter: grayscale(0%) brightness(.92);
+}
+.slide-dots {
+  position: absolute;
+  bottom: clamp(40px, 5vh, 72px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+.slide-dot {
+  width: 24px; height: 2px;
+  background: rgba(245,239,230,.3);
+  border: none; outline: none; padding: 0;
+  cursor: pointer;
+  transition: width .4s, background .4s;
+}
+.slide-dot.active {
+  width: 40px;
+  background: rgba(245,239,230,.9);
+}
+.slide-counter {
+  position: absolute;
+  bottom: clamp(36px, 4.5vh, 66px);
+  right: clamp(40px, 7vw, 116px);
+  z-index: 10;
+  font-family: var(--en);
+  font-size: 11px;
+  letter-spacing: .15em;
+  color: rgba(245,239,230,.45);
+}
+.slide-counter span {
+  font-size: 14px;
+  color: rgba(245,239,230,.88);
+}
+
+/* ── ABOUT ───────────────────────────────────────────────── */
+#about {
+  min-height: 100svh;
+  padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));
+  display: flex;
+  align-items: center;
+}
+.about__inner {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: clamp(40px, 5vw, 80px);
+}
+.about__images {
+  flex: 0 0 52%;
+  position: relative;
+  height: 700px;
+}
+.aimg {
+  position: absolute;
+  overflow: hidden;
+}
+.aimg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .7s;
+}
+.aimg:hover img { transform: scale(1.04); }
+.aimg::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 20%;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  pointer-events: none;
+  z-index: 5;
+}
+.aimg--1 { left: 20px;  top: 20px;  width: 230px; height: 500px; z-index: 4; }
+.aimg--2 { left: 290px; top: 160px; width: 260px; height: 250px; z-index: 2; }
+.aimg--3 { left: 185px; top: 400px; width: 240px; height: 240px; z-index: 3; }
+.about__text {
+  flex: 1;
+  position: relative;
+  padding-top: 160px;
+}
+.about__label {
+  position: absolute;
+  top: 0; left: 0;
+  font-family: var(--en);
+  font-size: clamp(13px, 1vw, 15px);
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  opacity: .5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.about__label::before {
+  content: '';
+  display: block;
+  width: 24px; height: 1px;
+  background: currentColor;
+  opacity: .5;
+  flex-shrink: 0;
+}
+.about__heading {
+  font-family: var(--ja);
+  font-size: clamp(18px, 1.8vw, 34px);
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: .06em;
+  margin-bottom: clamp(24px, 3.2vh, 40px);
+  white-space: nowrap;
+}
+.about__body {
+  font-family: var(--ja);
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 2.2;
+  opacity: .82;
+  letter-spacing: .06em;
+  margin-bottom: clamp(20px, 2.8vh, 32px);
+}
+.about__opened {
+  font-family: var(--en);
+  font-size: clamp(14px, 1.1vw, 18px);
+  letter-spacing: .22em;
+  opacity: .55;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.about__opened::before {
+  content: '';
+  display: block;
+  width: 20px; height: 1px;
+  background: currentColor;
+  opacity: .5;
+}
+
+/* ── ROOMS ───────────────────────────────────────────────── */
+#rooms {
+  min-height: 100svh;
+  padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rooms__header { margin-bottom: clamp(40px, 5vh, 64px); }
+.eyebrow {
+  font-family: var(--en);
+  font-size: clamp(13px, 1vw, 15px);
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  opacity: .5;
+  margin-bottom: clamp(12px, 1.6vh, 20px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px; height: 1px;
+  background: currentColor;
+  opacity: .5;
+  flex-shrink: 0;
+}
+.sec-heading {
+  font-family: var(--ja);
+  font-size: clamp(18px, 1.8vw, 34px);
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.rooms__header .sec-heading { margin-bottom: clamp(16px, 2vh, 24px); }
+.rooms__desc {
+  font-family: var(--ja);
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 2.2;
+  opacity: .82;
+  letter-spacing: .06em;
+}
+.rooms__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3vw, 48px);
+}
+.room-card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vh, 24px);
+}
+.room-card__img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  position: relative;
+}
+.room-card__img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%) brightness(.82);
+  transition: filter .8s, transform .7s;
+}
+.room-card:hover .room-card__img img {
+  filter: grayscale(0%) brightness(.92);
+  transform: scale(1.03);
+}
+.room-card__img::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 20%;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  pointer-events: none;
+  z-index: 2;
+}
+.room-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.room-card__type {
+  font-family: var(--en);
+  font-size: clamp(13px, 1vw, 15px);
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  opacity: .5;
+}
+.room-card__name {
+  font-family: var(--en);
+  font-size: clamp(16px, 1.4vw, 22px);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.room-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--en);
+  font-size: clamp(13px, 1vw, 15px);
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  opacity: .55;
+  transition: opacity .3s;
+  margin-top: 4px;
+}
+.room-card__link::after {
+  content: '→';
+  font-size: 1.1em;
+  transition: transform .3s;
+}
+.room-card__link:hover { opacity: 1; }
+.room-card__link:hover::after { transform: translateX(4px); }
+
+/* ── AREA ────────────────────────────────────────────────── */
+#area {
+  padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));
+}
+#area .eyebrow  { margin-bottom: clamp(12px, 1.6vh, 20px); }
+#area .sec-heading { margin-bottom: clamp(32px, 4vh, 56px); }
+
+/* AREAマップ：背景＋スポットの重ねレイアウト */
+.area__map {
+  position: relative;
+  width: 100%;
+}
+.area__map__bg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* 各スポット：%指定でposition:absolute → レスポンシブ対応 */
+.area__spot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  /* フェードイン初期状態 */
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(16px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.area__spot.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0);
+}
+.area__spot img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 各スポットの位置（背景画像1448x1086に対する%） */
+.area__spot--sakura { left: 26%;  top: 20%; width: 22%; transition-delay: 0s; }
+.area__spot--jizo   { left: 76%;  top: 28%; width: 22%; transition-delay: .2s; }
+.area__spot--hotel  { left: 50%;  top: 50%; width: 24%; transition-delay: .4s; }
+.area__spot--sugamo { left: 17%;  top: 68%; width: 22%; transition-delay: .6s; }
+.area__spot--bunkaz { left: 76%;  top: 72%; width: 27%; transition-delay: .8s; }
+
+/* ── PLACEHOLDER（AMENITIES・ACCESS暫定） ─────────────────── */
+.placeholder {
+  min-height: 50vh;
+  padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));
+  display: flex;
+  align-items: center;
+}
+.placeholder p {
+  font-family: var(--en);
+  font-size: 11px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  opacity: .2;
+}
+
+/* ── 共通フェードアップ ──────────────────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-up:nth-child(2) { transition-delay: .5s; }
+.fade-up:nth-child(3) { transition-delay: 1.0s; }
+.fade-up:nth-child(4) { transition-delay: 1.5s; }
+.fade-up:nth-child(5) { transition-delay: 2.0s; }
