@@ -575,7 +575,7 @@ body {
 #amenities .eyebrow     { margin-bottom: clamp(12px,1.6vh,20px); }
 #amenities .sec-heading { margin-bottom: clamp(32px,4vh,56px); }
 
-/* 上段：4列横一列 */
+/* 画像グリッド：4列横一列 */
 .amenity__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -606,14 +606,14 @@ body {
 }
 .amenity__caption {
   font-family: var(--ja);
-  font-size: clamp(13px, 1.1vw, 17px);
+  font-size: clamp(13px,1.1vw,17px);
   font-weight: 500;
   letter-spacing: .06em;
   opacity: .8;
   line-height: 1.6;
 }
 
-/* 下段：テキストリスト（2列） */
+/* テキストリスト */
 .amenity__list {
   border-top: 1px solid rgba(134,91,57,.15);
   padding-top: clamp(24px,3vh,40px);
@@ -647,7 +647,6 @@ body {
 .amenity__list__items {
   font-family: var(--ja);
   font-size: clamp(13px,1vw,16px);
-  font-weight: 400;
   line-height: 2;
   opacity: .8;
   letter-spacing: .04em;
@@ -694,78 +693,4 @@ body {
   height: 450px;
   border: 0;
   display: block;
-}
-
-/* ── AMENITIES 修正版 ────────────────────────────────────── */
-/* 画像グリッド：4枚・2/3サイズ */
-.amenity__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(16px, 2vw, 32px);
-  max-width: 66%;  /* 他セクションの2/3 */
-  margin-bottom: clamp(32px, 4vh, 56px);
-}
-.amenity__img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  overflow: hidden;
-}
-.amenity__img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(15%) brightness(.92);
-  transition: filter .8s, transform .7s;
-}
-.amenity__item:hover .amenity__img img {
-  filter: grayscale(0%) brightness(1);
-  transform: scale(1.03);
-}
-.amenity__caption {
-  font-family: var(--en);
-  font-size: clamp(10px, .85vw, 13px);
-  letter-spacing: .08em;
-  opacity: .65;
-  margin-top: 8px;
-  line-height: 1.5;
-}
-
-/* テキストリスト「ほか」 */
-.amenity__other__label {
-  font-family: var(--en);
-  font-size: clamp(10px, .85vw, 13px);
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  opacity: .35;
-  margin-bottom: clamp(16px, 2vh, 24px);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.amenity__other__label::before {
-  content: '';
-  display: block;
-  width: 24px; height: 1px;
-  background: currentColor;
-  flex-shrink: 0;
-}
-.amenity__list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(16px, 2vw, 28px);
-}
-.amenity__list__cat {
-  font-family: var(--en);
-  font-size: clamp(10px, .85vw, 12px);
-  letter-spacing: .25em;
-  text-transform: uppercase;
-  opacity: .45;
-  margin-bottom: 8px;
-}
-.amenity__list__items {
-  font-family: var(--ja);
-  font-size: clamp(11px, .9vw, 13px);
-  line-height: 2;
-  opacity: .75;
-  letter-spacing: .04em;
 }
