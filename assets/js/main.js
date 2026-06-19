@@ -113,3 +113,22 @@
     }
   });
 }());
+
+/* ── 7. LANGUAGEアコーディオン ─────────────────────────── */
+(function () {
+  var langBlock = document.querySelector('.side-lang');
+  var langLabel = document.querySelector('.side-lang__label');
+  if (!langBlock || !langLabel) return;
+
+  langLabel.addEventListener('click', function () {
+    langBlock.classList.toggle('open');
+  });
+
+  // 言語リンクを選択したらアコーディオンを閉じる
+  var langLinks = document.querySelectorAll('.side-lang__list a');
+  langLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      langBlock.classList.remove('open');
+    });
+  });
+}());
