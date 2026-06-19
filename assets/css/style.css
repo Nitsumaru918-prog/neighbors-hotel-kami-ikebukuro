@@ -567,3 +567,88 @@ body {
 .fade-up:nth-child(3) { transition-delay: 1.0s; }
 .fade-up:nth-child(4) { transition-delay: 1.5s; }
 .fade-up:nth-child(5) { transition-delay: 2.0s; }
+
+/* ── AMENITIES ───────────────────────────────────────────── */
+#amenities {
+  padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));
+}
+#amenities .eyebrow     { margin-bottom: clamp(12px,1.6vh,20px); }
+#amenities .sec-heading { margin-bottom: clamp(32px,4vh,56px); }
+
+.amenity__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px,3vw,48px);
+}
+.amenity__item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.amenity__img {
+  width: 100%;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+}
+.amenity__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(20%) brightness(.9);
+  transition: filter .8s, transform .7s;
+}
+.amenity__item:hover .amenity__img img {
+  filter: grayscale(0%) brightness(1);
+  transform: scale(1.03);
+}
+.amenity__caption {
+  font-family: var(--ja);
+  font-size: clamp(12px,.95vw,14px);
+  letter-spacing: .06em;
+  opacity: .75;
+  line-height: 1.6;
+}
+
+/* ── ACCESS ──────────────────────────────────────────────── */
+#access {
+  padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));
+}
+#access .eyebrow     { margin-bottom: clamp(12px,1.6vh,20px); }
+#access .sec-heading { margin-bottom: clamp(32px,4vh,56px); }
+
+.access__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: clamp(40px,5vw,80px);
+  align-items: start;
+}
+.access__dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(16px,2vh,24px) clamp(20px,2.5vw,32px);
+}
+.access__dl dt {
+  font-family: var(--en);
+  font-size: clamp(10px,.85vw,13px);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  opacity: .45;
+  padding-top: 2px;
+  white-space: nowrap;
+}
+.access__dl dd {
+  font-family: var(--ja);
+  font-size: clamp(13px,1vw,15px);
+  line-height: 1.8;
+  letter-spacing: .06em;
+}
+.access__map {
+  width: 100%;
+}
+.access__map iframe {
+  width: 100%;
+  height: 450px;
+  border: 0;
+  display: block;
+}
