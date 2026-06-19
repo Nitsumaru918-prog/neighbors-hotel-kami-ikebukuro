@@ -575,10 +575,11 @@ body {
 #amenities .eyebrow     { margin-bottom: clamp(12px,1.6vh,20px); }
 #amenities .sec-heading { margin-bottom: clamp(32px,4vh,56px); }
 
+/* 上段：4列横一列 */
 .amenity__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(16px,2vw,32px);
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(12px,1.5vw,24px);
   margin-bottom: clamp(40px,5vh,64px);
 }
 .amenity__item {
@@ -605,12 +606,14 @@ body {
 }
 .amenity__caption {
   font-family: var(--ja);
-  font-size: clamp(11px,.85vw,13px);
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 500;
   letter-spacing: .06em;
-  opacity: .7;
+  opacity: .8;
   line-height: 1.6;
 }
 
+/* 下段：テキストリスト（2列） */
 .amenity__list {
   border-top: 1px solid rgba(134,91,57,.15);
   padding-top: clamp(24px,3vh,40px);
@@ -625,22 +628,24 @@ body {
 }
 .amenity__list__cats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(16px,2vw,32px);
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(20px,2.5vh,36px) clamp(40px,5vw,80px);
 }
 .amenity__list__cat-name {
   font-family: var(--en);
-  font-size: clamp(10px,.85vw,12px);
+  font-size: clamp(11px,.9vw,13px);
+  font-weight: 700;
   letter-spacing: .25em;
   text-transform: uppercase;
-  opacity: .5;
-  margin-bottom: 8px;
+  opacity: .55;
+  margin-bottom: 10px;
 }
 .amenity__list__items {
   font-family: var(--ja);
-  font-size: clamp(11px,.85vw,13px);
+  font-size: clamp(12px,.95vw,14px);
+  font-weight: 400;
   line-height: 2;
-  opacity: .75;
+  opacity: .8;
   letter-spacing: .04em;
 }
 
