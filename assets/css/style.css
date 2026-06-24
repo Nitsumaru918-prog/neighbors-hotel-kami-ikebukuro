@@ -427,6 +427,19 @@ body {
   flex-direction: column;
   gap: clamp(16px, 2vh, 24px);
 }
+
+.room-card__img-link {
+  display: block;
+  overflow: hidden;
+}
+.room-card__img-link .room-card__img img {
+  transition: filter .8s, transform .7s;
+}
+.room-card__img-link:hover .room-card__img img {
+  filter: grayscale(0%) brightness(.92);
+  transform: scale(1.03);
+}
+
 .room-card__img {
   width: 100%;
   aspect-ratio: 4/3;
