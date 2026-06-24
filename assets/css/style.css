@@ -35,7 +35,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: clamp(16px, 2.5vw, 32px);
+  padding-left: clamp(20px, 2.8vw, 36px);
+  padding-right: clamp(12px, 1.5vw, 20px);
   opacity: 0;
   transform: translateX(-100%);
   transition: opacity .7s, transform .7s;
@@ -713,9 +714,9 @@ body {
 /* ── RESERVE ボタン ──────────────────────────────────────── */
 .side-reserve {
   position: absolute;
-  bottom: clamp(24px,3vh,40px);
-  left: clamp(16px,2.5vw,28px);
-  right: clamp(16px,2.5vw,28px);
+  bottom: clamp(28px,3.5vh,48px);
+  left: clamp(16px,2vw,24px);
+  right: clamp(16px,2vw,24px);
 }
 .side-reserve__btn {
   display: block;
@@ -727,7 +728,7 @@ body {
   text-transform: uppercase;
   text-decoration: none;
   text-align: center;
-  padding: clamp(7px,.9vh,10px) 0;
+  padding: clamp(12px,1.5vh,18px) 0;
   transition: background .3s, color .3s;
 }
 .side-reserve__btn:hover {
@@ -751,18 +752,19 @@ body {
 }
 .site-footer__nav a {
   font-family: var(--en);
-  font-size: clamp(9px,.75vw,11px);
+  font-size: clamp(12px,.95vw,14px);
   letter-spacing: .28em;
   text-transform: uppercase;
-  color: var(--text);
+  color: #555555;
   text-decoration: none;
-  opacity: .4;
+  opacity: 1;
   transition: opacity .3s;
 }
-.site-footer__nav a:hover { opacity: 1; }
+.site-footer__nav a:hover { opacity: .7; }
 .site-footer__copy {
   font-family: var(--en);
-  font-size: clamp(9px,.75vw,11px);
+  font-size: clamp(12px,.95vw,14px);
   letter-spacing: .15em;
-  opacity: .25;
+  color: #555555;
+  opacity: .8;
 }
