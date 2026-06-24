@@ -1,22 +1,23 @@
 {
   "redirects": [
-    { "source": "/", "destination": "/ja/", "permanent": false }
+    { "source": "/ikebukuro-north", "destination": "/ikebukuro-north/ja/", "permanent": false },
+    { "source": "/", "destination": "/ikebukuro-north/ja/", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/ja/rooms/type-1",      "destination": "/ja/rooms/type-1/index.html" },
-    { "source": "/ja/rooms/type-2",      "destination": "/ja/rooms/type-2/index.html" },
-    { "source": "/en/rooms/type-1",      "destination": "/en/rooms/type-1/index.html" },
-    { "source": "/en/rooms/type-2",      "destination": "/en/rooms/type-2/index.html" },
-    { "source": "/zh-hans/rooms/type-1", "destination": "/zh-hans/rooms/type-1/index.html" },
-    { "source": "/zh-hans/rooms/type-2", "destination": "/zh-hans/rooms/type-2/index.html" },
-    { "source": "/zh-hant/rooms/type-1", "destination": "/zh-hant/rooms/type-1/index.html" },
-    { "source": "/zh-hant/rooms/type-2", "destination": "/zh-hant/rooms/type-2/index.html" },
-    { "source": "/ko/rooms/type-1",      "destination": "/ko/rooms/type-1/index.html" },
-    { "source": "/ko/rooms/type-2",      "destination": "/ko/rooms/type-2/index.html" },
-    { "source": "/ja/legal",             "destination": "/ja/legal/index.html" },
-    { "source": "/en/legal",             "destination": "/en/legal/index.html" },
-    { "source": "/zh-hans/legal",        "destination": "/zh-hans/legal/index.html" },
-    { "source": "/zh-hant/legal",        "destination": "/zh-hant/legal/index.html" },
-    { "source": "/ko/legal",             "destination": "/ko/legal/index.html" }
+    { "source": "/ikebukuro-north/ja/rooms/type-1",      "destination": "/ja/rooms/type-1/index.html" },
+    { "source": "/ikebukuro-north/ja/rooms/type-2",      "destination": "/ja/rooms/type-2/index.html" },
+    { "source": "/ikebukuro-north/en/rooms/type-1",      "destination": "/en/rooms/type-1/index.html" },
+    { "source": "/ikebukuro-north/en/rooms/type-2",      "destination": "/en/rooms/type-2/index.html" },
+    { "source": "/ikebukuro-north/zh-hans/rooms/type-1", "destination": "/zh-hans/rooms/type-1/index.html" },
+    { "source": "/ikebukuro-north/zh-hans/rooms/type-2", "destination": "/zh-hans/rooms/type-2/index.html" },
+    { "source": "/ikebukuro-north/zh-hant/rooms/type-1", "destination": "/zh-hant/rooms/type-1/index.html" },
+    { "source": "/ikebukuro-north/zh-hant/rooms/type-2", "destination": "/zh-hant/rooms/type-2/index.html" },
+    { "source": "/ikebukuro-north/ko/rooms/type-1",      "destination": "/ko/rooms/type-1/index.html" },
+    { "source": "/ikebukuro-north/ko/rooms/type-2",      "destination": "/ko/rooms/type-2/index.html" },
+    { "source": "/ikebukuro-north/ja/legal",             "destination": "/ja/legal/index.html" },
+    { "source": "/ikebukuro-north/en/legal",             "destination": "/en/legal/index.html" },
+    { "source": "/ikebukuro-north/zh-hans/legal",        "destination": "/zh-hans/legal/index.html" },
+    { "source": "/ikebukuro-north/zh-hant/legal",        "destination": "/zh-hant/legal/index.html" },
+    { "source": "/ikebukuro-north/ko/legal",             "destination": "/ko/legal/index.html" }
   ]
 }
