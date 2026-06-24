@@ -528,14 +528,11 @@ body {
   font-size: clamp(13px,1.1vw,16px);
   font-weight: 700;
   letter-spacing: .05em;
-  color: var(--text);
+  color: #3a2510;
   margin-top: 8px;
   line-height: 1.4;
-  text-shadow:
-    -2px -2px 0 var(--bg),
-     2px -2px 0 var(--bg),
-    -2px  2px 0 var(--bg),
-     2px  2px 0 var(--bg);
+  -webkit-text-stroke: 0.4px var(--bg);
+  paint-order: stroke fill;
 }
 .spot__desc {
   font-family: var(--en);
@@ -545,11 +542,8 @@ body {
   opacity: .85;
   margin-top: 4px;
   line-height: 1.5;
-  text-shadow:
-    -2px -2px 0 var(--bg),
-     2px -2px 0 var(--bg),
-    -2px  2px 0 var(--bg),
-     2px  2px 0 var(--bg);
+  -webkit-text-stroke: 0.3px var(--bg);
+  paint-order: stroke fill;
 }
 
 /* 各スポットの位置・サイズ（背景1448x1086に対する%） */
@@ -720,8 +714,8 @@ body {
 .side-reserve {
   position: absolute;
   bottom: clamp(24px,3vh,40px);
-  left: clamp(16px,2.5vw,32px);
-  right: 0;
+  left: clamp(16px,2.5vw,28px);
+  right: clamp(16px,2.5vw,28px);
 }
 .side-reserve__btn {
   display: block;
@@ -733,7 +727,7 @@ body {
   text-transform: uppercase;
   text-decoration: none;
   text-align: center;
-  padding: clamp(10px,1.2vh,14px) 0;
+  padding: clamp(7px,.9vh,10px) 0;
   transition: background .3s, color .3s;
 }
 .side-reserve__btn:hover {
