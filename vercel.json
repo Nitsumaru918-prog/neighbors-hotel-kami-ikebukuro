@@ -1,9 +1,9 @@
 {
   "redirects": [
-    {
-      "source": "/",
-      "destination": "/ja/",
-      "permanent": false
-    }
+    { "source": "/", "destination": "/ja/", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/ja/rooms/type-2", "destination": "/ja/rooms/type-2/index.html" },
+    { "source": "/ja/legal", "destination": "/ja/legal/index.html" }
   ]
 }
