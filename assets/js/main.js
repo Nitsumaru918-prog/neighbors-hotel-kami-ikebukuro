@@ -37,11 +37,38 @@
 /* ── 2. サイドバー表示 ──────────────────────────────────── */
 (function () {
   var side = document.getElementById('sideHeader');
-  new IntersectionObserver(function (entries) {
-    if (entries[0].intersectionRatio >= 0.3) {
+  if (!side) return;
+
+  // 客室詳細ページ（aside.visible が既に付いている）は何もしない
+  if (side.classList.contains('visible')) return;
+
+  var about = document.getElementById('about');
+  if (!about) {
+    // aboutセクションがないページは常時表示
+    side.classList.add('visible');
+    return;
+  }
+
+  function showIfPast() {
+    // aboutの上端が画面上部30%より上にあれば表示済みと判定
+    var rect = about.getBoundingClientRect();
+    var threshold = window.innerHeight * 0.3;
+    if (rect.top < threshold) {
       side.classList.add('visible');
+      return true;
     }
-  }, { threshold: [0, 0.1, 0.2, 0.3] }).observe(document.getElementById('about'));
+    return false;
+  }
+
+  // ページロード時に即判定（ブラウザバック対応）
+  if (!showIfPast()) {
+    // まだ到達していなければIntersectionObserverで監視
+    new IntersectionObserver(function (entries) {
+      if (entries[0].intersectionRatio >= 0.3) {
+        side.classList.add('visible');
+      }
+    }, { threshold: [0, 0.1, 0.2, 0.3] }).observe(about);
+  }
 }());
 
 /* ── 3. サイドナビ アクティブ切り替え ──────────────────── */
@@ -111,5 +138,24 @@
     if (path.indexOf(href.replace(/^\//, '').replace(/\/$/, '')) !== -1) {
       link.classList.add('active');
     }
+  });
+}());
+
+/* ── 7. LANGUAGEアコーディオン ─────────────────────────── */
+(function () {
+  var langBlock = document.querySelector('.side-lang');
+  var langLabel = document.querySelector('.side-lang__label');
+  if (!langBlock || !langLabel) return;
+
+  langLabel.addEventListener('click', function () {
+    langBlock.classList.toggle('open');
+  });
+
+  // 言語リンクを選択したらアコーディオンを閉じる
+  var langLinks = document.querySelectorAll('.side-lang__list a');
+  langLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      langBlock.classList.remove('open');
+    });
   });
 }());
