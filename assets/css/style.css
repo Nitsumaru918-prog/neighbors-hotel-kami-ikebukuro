@@ -909,29 +909,49 @@ body {
     padding-left: 20px !important;
     padding-right: 20px !important;
   }
-  .fv { padding-left: 0 !important; padding-right: 0 !important; }
+  .fv {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    flex-direction: column;
+  }
+  .fv__right {
+    flex: none;
+    height: 56vw;
+    min-height: 240px;
+    order: 0;
+    padding: 0;
+  }
+  .fv__left {
+    flex: none;
+    padding: 32px 24px 40px;
+    order: 1;
+  }
+  .fv__left::after { display: none; }
+  .fv__logo img {
+    width: clamp(160px, 60vw, 300px);
+    max-height: 32px;
+  }
 
   /* ── FV ─────────────────────────────────────────────── */
   .fv {
     flex-direction: column;
     height: auto;
-    min-height: 100svh;
-    margin-bottom: 0;
+    min-height: auto;
   }
   .fv__left {
     flex: none;
-    padding: 32px 24px 28px;
+    padding: 32px 24px 40px;
     order: 1;
-    margin-bottom: 0;
   }
   .fv__left::after { display: none; }
   .fv__right {
     flex: none;
     height: 56vw;
-    min-height: 260px;
+    min-height: 240px;
     order: 0;
     padding: 0;
-    margin-bottom: 0;
   }
   .fv__logo img {
     width: clamp(160px, 60vw, 300px);
@@ -940,30 +960,42 @@ body {
 
   /* ── ABOUT ───────────────────────────────────────────── */
   #about {
-    padding-top: 0;
-    padding-bottom: 48px;
-    min-height: auto;
+    padding-top: 40px !important;
+    padding-bottom: 48px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    min-height: auto !important;
+    display: block;
   }
   .about__inner {
     flex-direction: column;
     gap: 0;
+    display: flex;
   }
+  /* 画像を先に・テキストを後に */
   .about__images {
     flex: none;
     width: 100%;
     height: 260px;
-    margin-bottom: 0;
+    position: relative;
     order: 0;
+    margin-bottom: 32px;
   }
+  .aimg { position: absolute; overflow: hidden; }
   .aimg--1 { left: 0;   top: 0;    width: 46%; height: 190px; }
   .aimg--2 { left: 50%; top: 30px; width: 50%; height: 140px; }
   .aimg--3 { left: 20%; top: 170px; width: 56%; height: 140px; }
   .about__text {
-    padding-top: 32px;
+    padding-top: 0;
     position: static;
     order: 1;
+    flex: none;
   }
-  .about__label { position: static; margin-bottom: 16px; }
+  .about__label {
+    position: static;
+    margin-bottom: 16px;
+    top: auto; left: auto;
+  }
   .about__heading { white-space: normal; font-size: clamp(18px,5vw,26px); }
 
   /* ── ROOMS ───────────────────────────────────────────── */
