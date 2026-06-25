@@ -431,6 +431,9 @@ body {
 .room-card__img-link {
   display: block;
   overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  outline: none;
 }
 .room-card__img-link .room-card__img img {
   transition: filter .8s, transform .7s;
@@ -612,36 +615,21 @@ body {
 #amenities .eyebrow     { margin-bottom: clamp(12px,1.6vh,20px); }
 #amenities .sec-heading { margin-bottom: clamp(32px,4vh,56px); }
 
-<<<<<<< HEAD
-.amenity__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(24px,3vw,48px);
-=======
 /* 画像グリッド：4列横一列 */
 .amenity__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(12px,1.5vw,24px);
   margin-bottom: clamp(40px,5vh,64px);
->>>>>>> feature/area-animation
 }
 .amenity__item {
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-  gap: 12px;
-}
-.amenity__img {
-  width: 100%;
-  aspect-ratio: 3/2;
-=======
   gap: 10px;
 }
 .amenity__img {
   width: 100%;
   aspect-ratio: 4/3;
->>>>>>> feature/area-animation
   overflow: hidden;
 }
 .amenity__img img {
@@ -658,14 +646,6 @@ body {
 }
 .amenity__caption {
   font-family: var(--ja);
-<<<<<<< HEAD
-  font-size: clamp(12px,.95vw,14px);
-  letter-spacing: .06em;
-  opacity: .75;
-  line-height: 1.6;
-}
-
-=======
   font-size: clamp(13px,1.1vw,17px);
   font-weight: 500;
   letter-spacing: .06em;
@@ -713,7 +693,6 @@ body {
   letter-spacing: .04em;
 }
 
->>>>>>> feature/area-animation
 /* ── ACCESS ──────────────────────────────────────────────── */
 #access {
   padding: clamp(60px,8vh,120px) clamp(40px,5vw,80px) clamp(60px,8vh,120px) calc(var(--sw) + clamp(32px,4vw,60px));
@@ -736,14 +715,9 @@ body {
   font-family: var(--en);
   font-size: clamp(10px,.85vw,13px);
   letter-spacing: .28em;
-<<<<<<< HEAD
-  text-transform: uppercase;
-  opacity: .45;
-=======
   font-weight: 500;
   text-transform: uppercase;
   opacity: .6;
->>>>>>> feature/area-animation
   padding-top: 2px;
   white-space: nowrap;
 }
@@ -762,8 +736,6 @@ body {
   border: 0;
   display: block;
 }
-<<<<<<< HEAD
-=======
 
 /* ── RESERVE ボタン ──────────────────────────────────────── */
 .side-reserve {
@@ -822,4 +794,3 @@ body {
   color: #555555;
   opacity: .8;
 }
->>>>>>> feature/area-animation
