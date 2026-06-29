@@ -11,11 +11,12 @@
 }
 
 :root {
-  --bg:   #f5efe6;
-  --text: #865b39;
-  --sw:   clamp(110px, 11vw, 160px);
-  --en:   'Libre Baskerville', Georgia, serif;
-  --ja:   'Noto Serif JP', 'Yu Mincho', serif;
+  --bg:     #f5efe6;
+  --text:   #3a2510;
+  --accent: #865b39;
+  --sw:     clamp(160px,15vw,220px);
+  --en:     'Libre Baskerville', Georgia, serif;
+  --ja:     'Noto Serif JP', 'Yu Mincho', serif;
 }
 
 html { scroll-behavior: smooth; }
@@ -38,13 +39,11 @@ body {
   padding-left: clamp(20px, 2.8vw, 36px);
   padding-right: clamp(12px, 1.5vw, 20px);
   opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity .7s, transform .7s;
+  transition: opacity .7s;
   pointer-events: none;
 }
 .side.visible {
   opacity: 1;
-  transform: translateX(0);
   pointer-events: auto;
 }
 .side::after {
@@ -822,6 +821,16 @@ body {
     padding: 0 20px;
     border-bottom: 1px solid rgba(134,91,57,.12);
   }
+  /* FVページ：ロゴ非表示スタート → FVロゴが消えたら表示（JSで制御） */
+  .sp-header__logo {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .5s ease;
+  }
+  .sp-header__logo.logo--visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
   .sp-header__logo img {
     height: 20px;
     filter: invert(38%) sepia(30%) saturate(600%) hue-rotate(10deg) brightness(75%);
@@ -922,6 +931,7 @@ body {
     min-height: 240px;
     order: 0;
     padding: 0;
+    overflow: hidden; /* SP カルーセルのclip container */
   }
   .fv__left {
     flex: none;
@@ -934,28 +944,28 @@ body {
     max-height: 32px;
   }
 
-  /* ── FV ─────────────────────────────────────────────── */
-  .fv {
-    flex-direction: column;
-    height: auto;
-    min-height: auto;
+  /* ── SP FV カルーセル（translateX方式）──────────────── */
+  .slideshow {
+    overflow: visible !important;
+    display: flex;
+    touch-action: pan-y;
+    cursor: grab;
   }
-  .fv__left {
-    flex: none;
-    padding: 32px 24px 40px;
-    order: 1;
+  .slideshow.is-dragging { cursor: grabbing; }
+  .slide {
+    position: relative !important;
+    inset: auto !important;
+    flex-shrink: 0;
+    width: 100% !important;
+    opacity: 1 !important;
+    transition: none !important;
   }
-  .fv__left::after { display: none; }
-  .fv__right {
-    flex: none;
-    height: 56vw;
-    min-height: 240px;
-    order: 0;
-    padding: 0;
-  }
-  .fv__logo img {
-    width: clamp(160px, 60vw, 300px);
-    max-height: 32px;
+  /* モノクロ → カラーアップ */
+  .slide img { filter: grayscale(100%); }
+  .slide.active img { animation: fvColorInSP 2.7s ease forwards; }
+  @keyframes fvColorInSP {
+    0%,10% { filter: grayscale(100%); }
+    100%   { filter: grayscale(0%); }
   }
 
   /* ── ABOUT ───────────────────────────────────────────── */
@@ -998,6 +1008,9 @@ body {
     top: auto; left: auto;
   }
   .about__heading { white-space: normal; font-size: clamp(18px,5vw,26px); }
+  /* About 画像カラーアップ（JS で .color-in を付与） */
+  .aimg img { filter: grayscale(100%); transition: filter 1.8s ease, transform .7s; }
+  .aimg img.color-in { filter: grayscale(0%); }
 
   /* ── ROOMS ───────────────────────────────────────────── */
   #rooms { padding-top: 48px; padding-bottom: 48px; min-height: auto; }

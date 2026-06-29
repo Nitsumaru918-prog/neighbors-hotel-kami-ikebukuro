@@ -1,77 +1,227 @@
-'use strict';
-
 /* ============================================================
-   NEIGHBORS HOTEL KAMI-IKEBUKURO
-   main.js
+   NEIGHBORS HOTEL KAMI-IKEBUKURO — main.js
+   FVカルーセル: PC=opacity切り替え / SP=touchスワイプ横移動
+   サイドバー: FVロゴ消えたら表示（OS仕様に統一）
    ============================================================ */
 
-/* ── 1. スライドショー（FV） ────────────────────────────── */
 (function () {
-  var slides = document.querySelectorAll('.slide');
-  var dots   = document.querySelectorAll('.slide-dot');
-  var ctr    = document.getElementById('slideCounter');
-  var TOTAL  = slides.length;
-  var cur    = 0;
-  var timer;
+  'use strict';
 
-  function goTo(n) {
-    slides[cur].classList.remove('active');
-    dots[cur].classList.remove('active');
-    cur = (n + TOTAL) % TOTAL;
-    slides[cur].classList.add('active');
-    dots[cur].classList.add('active');
-    ctr.innerHTML = '<span>' + String(cur + 1).padStart(2, '0') + '</span> / 0' + TOTAL;
+  /* ── サイドバー：FVロゴが見切れたら表示 / 客室ページは常時表示 ── */
+  var fvLogoEl = document.querySelector('.fv__logo');
+  var sideEl   = document.querySelector('.side');
+  if (sideEl) {
+    if (fvLogoEl) {
+      var sideObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { sideEl.classList.remove('visible'); }
+          else                      { sideEl.classList.add('visible'); }
+        });
+      });
+      sideObs.observe(fvLogoEl);
+    } else {
+      sideEl.classList.add('visible');
+    }
   }
 
-  dots.forEach(function (d, i) {
-    d.addEventListener('click', function () {
-      goTo(i);
-      clearInterval(timer);
-      timer = setInterval(function () { goTo(cur + 1); }, 4500);
-    });
+  /* ── SP: FVロゴが消えたらSPヘッダーロゴを表示 ── */
+  var spHeaderLogoEl = document.querySelector('.sp-header__logo');
+  if (spHeaderLogoEl) {
+    if (fvLogoEl) {
+      new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { spHeaderLogoEl.classList.remove('logo--visible'); }
+        else                           { spHeaderLogoEl.classList.add('logo--visible'); }
+      }).observe(fvLogoEl);
+    } else {
+      spHeaderLogoEl.classList.add('logo--visible');
+    }
+  }
+
+  /* ── フェードイン (IntersectionObserver) ── */
+  var fadeEls = document.querySelectorAll('.fade-up');
+  if (fadeEls.length && 'IntersectionObserver' in window) {
+    var fadeObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(function (el) { fadeObs.observe(el); });
+  } else {
+    fadeEls.forEach(function (el) { el.classList.add('visible'); });
+  }
+
+  /* ── SP: About画像が70%表示されたらカラーアップ ── */
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    var aboutImagesEl = document.querySelector('.about__images');
+    if (aboutImagesEl && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) {
+          document.querySelectorAll('.aimg img').forEach(function (img) {
+            img.classList.add('color-in');
+          });
+        }
+      }, { threshold: 0.7 }).observe(aboutImagesEl);
+    }
+  }
+
+  /* ── FV カルーセル ──────────────────────────────────────── */
+  var slides     = document.querySelectorAll('.slide');
+  var dots       = document.querySelectorAll('.slide-dot');
+  var counter    = document.getElementById('slideCounter');
+  var slidesWrap = document.querySelector('.slideshow');
+  if (!slides.length || !slidesWrap) return;
+
+  /* touchリスナーは「動かない親要素」に付ける（iOS対策）
+     slidesWrapはSP時translateXで移動するため、overflow:hiddenの外に出ると
+     iOSがイベントバブリングを止める。clipElは常に静止している。 */
+  var clipEl = slidesWrap.parentElement || slidesWrap; /* .fv__right */
+
+  var total     = slides.length;
+  var current   = 0;
+  var autoTimer = null;
+  var INTERVAL  = 5000;
+  var THRESHOLD = 40;
+
+  function isSP() { return window.innerWidth <= 768; }
+
+  /* ── スライド切替 ─────────────────────────────────────── */
+  function goTo(index) {
+    var prevImg = slides[current].querySelector('img');
+    if (prevImg) prevImg.style.animationPlayState = '';
+    slides[current].classList.remove('active');
+    if (dots[current]) dots[current].classList.remove('active');
+
+    current = ((index % total) + total) % total;
+
+    if (isSP()) {
+      /* SP: translateXでスライド移動 */
+      slidesWrap.style.transition = 'transform .5s ease';
+      slidesWrap.style.transform  = 'translateX(-' + current * 100 + '%)';
+    }
+    /* PC: opacity/activeクラスで切り替え（translateXは使わない）*/
+
+    if (dots[current]) dots[current].classList.add('active');
+    if (counter) counter.querySelector('span').textContent = String(current + 1).padStart(2, '0');
+
+    /* RAFでactiveを付与 → SP colorInアニメーションが確実にリスタート */
+    var next = slides[current];
+    requestAnimationFrame(function () { next.classList.add('active'); });
+  }
+
+  /* ── スワイプ追従（transition なし） ─────────────────── */
+  function setTranslate(offsetX) {
+    var w   = clipEl.offsetWidth || slidesWrap.offsetWidth || 1;
+    var pct = -current * 100 + offsetX / w * 100;
+    slidesWrap.style.transition = 'none';
+    slidesWrap.style.transform  = 'translateX(' + pct + '%)';
+  }
+
+  /* ── ドット ──────────────────────────────────────────── */
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () { stopAuto(); goTo(i); startAuto(); });
   });
 
-  timer = setInterval(function () { goTo(cur + 1); }, 4500);
-}());
-
-/* ── 2. サイドバー表示 ──────────────────────────────────── */
-(function () {
-  var side = document.getElementById('sideHeader');
-  if (!side) return;
-
-  // 客室詳細ページ（aside.visible が既に付いている）は何もしない
-  if (side.classList.contains('visible')) return;
-
-  var about = document.getElementById('about');
-  if (!about) {
-    // aboutセクションがないページは常時表示
-    side.classList.add('visible');
-    return;
+  /* ── 自動スライド ─────────────────────────────────────── */
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(function () { goTo(current + 1); }, INTERVAL);
+  }
+  function stopAuto() {
+    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
   }
 
-  function showIfPast() {
-    // aboutの上端が画面上部30%より上にあれば表示済みと判定
-    var rect = about.getBoundingClientRect();
-    var threshold = window.innerHeight * 0.3;
-    if (rect.top < threshold) {
-      side.classList.add('visible');
-      return true;
+  /* ── SP タッチスワイプ ────────────────────────────────────────────
+     touch-action: pan-y（CSS）でブラウザが縦横を振り分けるため、
+     JS側で方向判定・e.preventDefault() は不要。
+  ─────────────────────────────────────────────────────────────── */
+  var touchStartX = 0;
+  var touchDiffX  = 0;
+  var isTouching  = false;
+
+  clipEl.addEventListener('touchstart', function (e) {
+    if (!isSP()) return;
+    touchStartX = e.touches[0].clientX;
+    touchDiffX  = 0;
+    isTouching  = true;
+    var img = slides[current] && slides[current].querySelector('img');
+    if (img) img.style.animationPlayState = 'paused';
+    stopAuto();
+  }, { passive: true });
+
+  clipEl.addEventListener('touchmove', function (e) {
+    if (!isSP() || !isTouching) return;
+    touchDiffX = e.touches[0].clientX - touchStartX;
+    setTranslate(touchDiffX);
+  }, { passive: true });
+
+  clipEl.addEventListener('touchcancel', function () {
+    if (!isSP() || !isTouching) return;
+    isTouching = false;
+    slidesWrap.style.transition = 'transform .3s ease';
+    slidesWrap.style.transform  = 'translateX(-' + current * 100 + '%)';
+    var img = slides[current] && slides[current].querySelector('img');
+    if (img) img.style.animationPlayState = '';
+    startAuto();
+  });
+
+  clipEl.addEventListener('touchend', function () {
+    if (!isSP() || !isTouching) return;
+    isTouching = false;
+    if (Math.abs(touchDiffX) > THRESHOLD) {
+      goTo(touchDiffX < 0 ? current + 1 : current - 1);
+    } else {
+      slidesWrap.style.transition = 'transform .3s ease';
+      slidesWrap.style.transform  = 'translateX(-' + current * 100 + '%)';
+      var img = slides[current] && slides[current].querySelector('img');
+      if (img) img.style.animationPlayState = '';
     }
-    return false;
-  }
+    startAuto();
+  });
 
-  // ページロード時に即判定（ブラウザバック対応）
-  if (!showIfPast()) {
-    // まだ到達していなければIntersectionObserverで監視
-    new IntersectionObserver(function (entries) {
-      if (entries[0].intersectionRatio >= 0.3) {
-        side.classList.add('visible');
-      }
-    }, { threshold: [0, 0.1, 0.2, 0.3] }).observe(about);
-  }
+  /* ── リサイズ対応 ────────────────────────────────────── */
+  window.addEventListener('resize', function () {
+    if (isSP()) {
+      slidesWrap.style.transition = 'none';
+      slidesWrap.style.transform  = 'translateX(-' + current * 100 + '%)';
+    } else {
+      slidesWrap.style.transition = 'none';
+      slidesWrap.style.transform  = '';
+    }
+  });
+
+  /* ── 初期化 ──────────────────────────────────────────── */
+  if (isSP()) { slidesWrap.style.transform = 'translateX(0%)'; }
+  slides[0].classList.add('active');
+  if (dots[0]) dots[0].classList.add('active');
+  startAuto();
+
 }());
 
-/* ── 3. サイドナビ アクティブ切り替え ──────────────────── */
+/* ── ハンバーガーメニュー ──────────────────────────────────── */
+(function () {
+  var burger = document.getElementById('spBurger');
+  var drawer = document.getElementById('spDrawer');
+  if (!burger || !drawer) return;
+
+  burger.addEventListener('click', function () {
+    burger.classList.toggle('open');
+    drawer.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  });
+
+  drawer.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      burger.classList.remove('open');
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}());
+
+/* ── サイドナビ アクティブ切り替え ────────────────────────── */
 (function () {
   var links = document.querySelectorAll('.side-nav a');
   ['about', 'rooms', 'area', 'amenities', 'access'].forEach(function (id) {
@@ -87,23 +237,7 @@
   });
 }());
 
-/* ── 4. 汎用フェードアップ ──────────────────────────────── */
-(function () {
-  var obs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (x) {
-      if (x.isIntersecting) {
-        x.target.classList.add('visible');
-        obs.unobserve(x.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  document.querySelectorAll('.fade-up').forEach(function (el) {
-    obs.observe(el);
-  });
-}());
-
-/* ── 5. AREAスポット フェードイン ───────────────────────── */
+/* ── AREAスポット フェードイン ─────────────────────────────── */
 (function () {
   var spots = document.querySelectorAll('.area__spot');
   if (!spots.length) return;
@@ -127,21 +261,18 @@
   }, { threshold: 0.2 }).observe(areaSection);
 }());
 
-/* ── 6. 言語切り替えリンク アクティブ表示 ──────────────── */
+/* ── 言語リンク アクティブ表示 ────────────────────────────── */
 (function () {
-  // 現在のパスから言語を判定してアクティブクラスを付与
   var path = window.location.pathname;
-  var langLinks = document.querySelectorAll('.side-lang__list a');
-  langLinks.forEach(function (link) {
+  document.querySelectorAll('.side-lang__list a').forEach(function (link) {
     var href = link.getAttribute('href');
-    // パスがhrefを含む場合アクティブ
     if (path.indexOf(href.replace(/^\//, '').replace(/\/$/, '')) !== -1) {
       link.classList.add('active');
     }
   });
 }());
 
-/* ── 7. LANGUAGEアコーディオン ─────────────────────────── */
+/* ── LANGUAGEアコーディオン ───────────────────────────────── */
 (function () {
   var langBlock = document.querySelector('.side-lang');
   var langLabel = document.querySelector('.side-lang__label');
@@ -151,9 +282,7 @@
     langBlock.classList.toggle('open');
   });
 
-  // 言語リンクを選択したらアコーディオンを閉じる
-  var langLinks = document.querySelectorAll('.side-lang__list a');
-  langLinks.forEach(function (link) {
+  document.querySelectorAll('.side-lang__list a').forEach(function (link) {
     link.addEventListener('click', function () {
       langBlock.classList.remove('open');
     });
