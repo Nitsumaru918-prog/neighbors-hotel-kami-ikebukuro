@@ -33,6 +33,7 @@
     { "source": "/ikebukuro-north/zh-hant/legal",         "destination": "/ikebukuro-north/zh-hant/legal/index.html" },
     { "source": "/ikebukuro-north/zh-hant/legal/",        "destination": "/ikebukuro-north/zh-hant/legal/index.html" },
     { "source": "/ikebukuro-north/ko/legal",              "destination": "/ikebukuro-north/ko/legal/index.html" },
-    { "source": "/ikebukuro-north/ko/legal/",             "destination": "/ikebukuro-north/ko/legal/index.html" }
+    { "source": "/ikebukuro-north/ko/legal/",             "destination": "/ikebukuro-north/ko/legal/index.html" },
+    { "source": "/otsuka/:path*", "destination": "https://neighbors-hotel-otsuka-south.vercel.app/otsuka/:path*" }
   ]
 }
