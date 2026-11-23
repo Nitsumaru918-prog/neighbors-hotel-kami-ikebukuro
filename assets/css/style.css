@@ -653,6 +653,14 @@ body {
   gap: clamp(40px,5vw,80px);
   align-items: start;
 }
+.access-hotel-name {
+  font-family: var(--en);
+  font-size: clamp(10px,.85vw,13px);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  opacity: .55;
+  margin-bottom: 24px;
+}
 .access__dl {
   display: grid;
   grid-template-columns: auto 1fr;
